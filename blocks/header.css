@@ -1,0 +1,20 @@
+
+
+.header {
+    margin-top: 45px;
+}
+
+.header__logo {
+    background: transparent url(../images/page-logo.svg) center no-repeat;
+    height: 33px;
+    width: 173px;
+}
+
+.header__logo {
+    margin-bottom: 41px;
+}
+
+.header__divider {
+    border-top: 1px solid #545454;
+    opacity: 0.7;
+  }
