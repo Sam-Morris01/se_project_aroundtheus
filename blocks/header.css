@@ -27,12 +27,12 @@
   .header {
     margin-left: 0;
     margin-right: 0;
-    padding-left: 19px;
-    padding-right: 19px;
+    margin-top: 28px;
   }
 
   .header__logo {
     margin-left: 27px;
+    margin-bottom: 32px;
   }
 }
 

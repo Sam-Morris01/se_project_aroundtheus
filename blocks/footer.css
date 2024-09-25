@@ -1,6 +1,4 @@
 .footer {
-  padding-left: 19px;
-  padding-right: 19px;
 }
 
 .footer__text {
@@ -15,10 +13,22 @@
   line-height: 22px;
 }
 
+@media screen and (max-width: 917px) {
+  .footer__text {
+    padding-left: 19px;
+  }
+}
+
 @media screen and (max-width: 618px) {
   .footer__text {
     margin-top: 48px;
     font-size: 14px;
     line-height: 17px;
+    padding-left: 19px;
+  }
+
+  .footer {
+    padding-left: 0;
+    padding-right: 0;
   }
 }

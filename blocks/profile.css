@@ -111,6 +111,7 @@
     flex-wrap: wrap;
     justify-content: center;
     max-width: 282px;
+    margin-top: 0;
   }
 
   .profile__add-button {
@@ -131,6 +132,7 @@
   .profile__description {
     font-size: 14px;
     line-height: 17px;
+    margin-bottom: 36px;
   }
 
   .profile__edit-button {
