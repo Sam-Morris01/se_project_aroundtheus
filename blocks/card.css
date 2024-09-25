@@ -2,3 +2,49 @@
   display: flex;
   flex-direction: column;
 }
+
+.card__image {
+  height: 282px;
+  width: 282px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.card__discription {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  width: 282px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.card__name {
+  margin-left: 20px;
+  margin-bottom: 25px;
+  margin-top: 25px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font-family: Inter, Arial, Helvetica, sans-serif;
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 29px;
+}
+
+.card__button {
+  background: transparent url(../images/heart.svg) center no-repeat;
+  border: none;
+  width: 21px;
+  height: 18px;
+  margin-right: 20px;
+  margin-top: 31px;
+  margin-bottom: 30px;
+  padding-left: 15px;
+}
+
+.card__button:hover {
+  opacity: 50%;
+  cursor: pointer;
+}
