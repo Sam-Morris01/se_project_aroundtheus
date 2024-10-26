@@ -111,7 +111,7 @@ function profileSubmited (e) {
     e.preventDefault();
     name.textContent = formName.value;
     description.textContent = formDescription.value;
-    hideModal(profileEditModal);
+    toggleModal(profileEditModal);
 }
 
 function addSubmited (e) {
@@ -119,7 +119,7 @@ function addSubmited (e) {
     const name = formImageName.value;
     const link = formImageUrl.value;
     renderCard({name, link}, cardListEL);
-    hideModal(addCardModal);
+    toggleModal(addCardModal);
 }
 
 function handleDeleteCard(e) {
