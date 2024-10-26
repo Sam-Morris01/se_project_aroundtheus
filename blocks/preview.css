@@ -1,0 +1,42 @@
+.preview__content {
+    max-width: 75vw;
+    max-height: 75vh;
+    height: auto;
+    width: auto;
+    background-color: transparent;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin-top: 90px;
+    
+
+}
+
+.modal__button-close {
+    background: url(../images/close-icon.svg) no-repeat;
+    background-size: contain;
+    position: absolute;
+    border-style: none;
+    padding: 0;
+    height: 40px;
+    width: 40px;
+    top: -46px;
+    right: -45px;
+  } 
+
+  .preview__image {
+
+  }
+
+.preview__modal {
+    color: white;
+    font-family: Inter, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14.52px;
+    text-align: left;
+    margin-top: 10px;
+    margin-bottom: 0;
+    margin-bottom: 90px;
+}
