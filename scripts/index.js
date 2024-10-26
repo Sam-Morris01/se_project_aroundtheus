@@ -62,6 +62,8 @@ const cardImage = document.querySelector(".card__image");
 
 
 //Functions
+
+
 function toggleModal (modal) {
     modal.classList.toggle('modal_opened') 
 }
@@ -69,6 +71,8 @@ function toggleModal (modal) {
 function showPreview (cardData) {
     previewImage.src = cardData.link;
     previewName.textContent = cardData.name
+    previewImage.alt = cardData.name
+
 
     toggleModal(previewModal)
 }
@@ -106,19 +110,23 @@ function renderCard(cardData, wrapper) {
     wrapper.prepend(cardElement);
 }
 
+
+
 //Event handlers   
-function profileSubmited (e) {
+function handleProfileSubmited (e) {
     e.preventDefault();
     name.textContent = formName.value;
     description.textContent = formDescription.value;
     toggleModal(profileEditModal);
 }
 
-function addSubmited (e) {
+function handleAddSubmited (e) {
     e.preventDefault();
     const name = formImageName.value;
     const link = formImageUrl.value;
     renderCard({name, link}, cardListEL);
+    formImageName.value = "";
+    formImageUrl.value = "";
     toggleModal(addCardModal);
 }
 
@@ -133,7 +141,8 @@ function handleDeleteCard(e) {
 editProfileButton.addEventListener("click", () => {
     formName.value = name.textContent;
     formDescription.value = description.textContent;
-    profileEditModal.classList.add('modal_opened')
+    toggleModal(profileEditModal);
+    profileEditModal
 })
 
 addCardButton.addEventListener("click", () => {
@@ -157,8 +166,8 @@ closePreviewModal.addEventListener("click", () => {
 
 
 
-profileEditForm.addEventListener('submit', profileSubmited);
-addImageForm.addEventListener('submit', addSubmited);
+profileEditForm.addEventListener('submit', handleProfileSubmited);
+addImageForm.addEventListener('submit', handleAddSubmited);
 
 
 initialCards.forEach( (cardData) => renderCard(cardData, cardListEL));
