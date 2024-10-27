@@ -48,8 +48,8 @@ const addImageForm = addCardModal.querySelector('.modal__form')
 //Preview Modal//
 const previewModal = document.querySelector('#preview-modal');
 const closePreviewModal = document.querySelector('#close-preview-button');
-const previewImage = document.querySelector('.preview__image');
-const previewName = document.querySelector('.preview__modal');
+const previewImage = document.querySelector('.modal__preview-image');
+const previewName = document.querySelector('.modal__preview');
 
 //Cards
 const name = document.querySelector('#profileName');
