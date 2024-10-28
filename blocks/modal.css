@@ -103,7 +103,7 @@
   opacity: 80%;
 }
 
-.modal__preview__content {
+.modal-container__preview {
   max-width: 75vw;
   max-height: 75vh;
   height: auto;
@@ -118,7 +118,7 @@
 
 }
 
-.modal__preview__button-close {
+.modal__close {
   background: url(../images/close-icon.svg) no-repeat;
   background-size: contain;
   position: absolute;
@@ -130,7 +130,7 @@
   right: -45px;
 }
 
-.modal__preview__button-close:hover {
+.modal__close:hover {
   cursor: pointer;
   opacity: 60%;
 }
@@ -193,7 +193,7 @@
 }
 
 @media screen and (max-width: 619px) { 
-  .modal__preview__button-close {
+  .modal__close {
       position: absolute;
       right: 0;
       top: -46px;
