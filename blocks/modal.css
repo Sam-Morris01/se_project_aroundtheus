@@ -103,7 +103,7 @@
   opacity: 80%;
 }
 
-.modal-container__preview {
+.modal__container-preview {
   max-width: 75vw;
   max-height: 75vh;
   height: auto;
@@ -118,22 +118,6 @@
 
 }
 
-.modal__close {
-  background: url(../images/close-icon.svg) no-repeat;
-  background-size: contain;
-  position: absolute;
-  border-style: none;
-  padding: 0;
-  height: 40px;
-  width: 40px;
-  top: -46px;
-  right: -45px;
-}
-
-.modal__close:hover {
-  cursor: pointer;
-  opacity: 60%;
-}
 
 .modal__preview {
   color: white;
