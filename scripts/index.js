@@ -154,7 +154,7 @@ addCardButton.addEventListener("click", () => {
 
 
 closeEditModal.addEventListener("click", () => {
-    
+    toggleModal(profileEditModal);
 })
 
 closeAddModal.addEventListener("click", () => {
