@@ -80,7 +80,7 @@
   line-height: 17px;
 }
 
-.form__input:focus {
+.modal__form-input:focus {
   outline: none;
 }
 
@@ -98,7 +98,7 @@
   line-height: 22px;
 }
 
-.form__button:hover {
+.modal__form-button:hover {
   cursor: pointer;
   opacity: 80%;
 }
@@ -131,6 +131,39 @@
   margin-bottom: 90px;
 }
 
+
+
+.modal__lable {
+display: flex;
+flex-direction: column;
+}
+
+.modal__error {
+  color: red;
+  display: none;
+}
+
+.modal__input_type_error {
+  display: block;
+  font-weight: 400;
+  font-size: 12px;
+  max-width: 358px;
+}
+
+.modal__error_visible {
+  border-bottom-color: red;
+  
+}
+
+.modal__button_disabled {
+  border-width: 1px;
+  border-radius: 2px;
+  border-color: #000;
+  border-style: solid;
+  color: #000;
+  background-color: #fff;
+  opacity: 20%;
+}
 
 @media screen and (max-width: 619px) {
   .modal {
