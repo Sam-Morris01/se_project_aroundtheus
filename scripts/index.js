@@ -64,9 +64,7 @@ const closeButtons = document.querySelectorAll('.modal__button-close')
 //Functions
 
 
-function toggleModal (modal) {
-    modal.classList.toggle('modal_opened') 
-}
+
 
 function showPreview (cardData) {
     previewImage.src = cardData.link;
@@ -132,7 +130,15 @@ function handleDeleteCard(e) {
     e.target.closest(".card").remove();
   }
 
-
+function clearFormErrors(formEl, {inputErrorClass, errorClass}) {
+    const inputEls = [...formEl.querySelectorAll('.modal__form-input')];
+    inputEls.forEach(inputEl => {
+        const errorMessage = formEl.querySelector(`#${inputEl.id}-error`);
+        inputEl.classList.remove(errorClass);
+        errorMessage.classList.remove(inputErrorClass);
+        errorMessage.textContent = '';
+    });
+}
 
   
 //Event Listeners
@@ -140,7 +146,6 @@ editProfileButton.addEventListener("click", () => {
     formName.value = name.textContent;
     formDescription.value = description.textContent;
     openModal(profileEditModal)
-    profileEditModal
 })
 
 addCardButton.addEventListener("click", () => {

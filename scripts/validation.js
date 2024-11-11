@@ -67,15 +67,15 @@ function enableValidation (options) {
 
 //Trying out
 
-function clearFormErrors(formEl, {inputErrorClass, errorClass}) {
-    const inputEls = [...formEl.querySelectorAll('.modal__form-input')];
-    inputEls.forEach(inputEl => {
-        const errorMessage = formEl.querySelector(`#${inputEl.id}-error`);
-        inputEl.classList.remove(errorClass);
-        errorMessage.classList.remove(inputErrorClass);
-        errorMessage.textContent = '';
-    });
-}
+// function clearFormErrors(formEl, {inputErrorClass, errorClass}) {
+//     const inputEls = [...formEl.querySelectorAll('.modal__form-input')];
+//     inputEls.forEach(inputEl => {
+//         const errorMessage = formEl.querySelector(`#${inputEl.id}-error`);
+//         inputEl.classList.remove(errorClass);
+//         errorMessage.classList.remove(inputErrorClass);
+//         errorMessage.textContent = '';
+//     });
+// }
 
 const editModalForm = document.querySelector('#edit-modal .modal__form');
 const addModalForm = document.querySelector('#add-modal .modal__form');
@@ -83,24 +83,24 @@ const addModalForm = document.querySelector('#add-modal .modal__form');
 const closeEditButton = document.getElementById('close-edit-button');
 const closeAddButton = document.getElementById('close-add-button');
 
-closeEditButton.addEventListener('click', () => {
-    clearFormErrors(editModalForm, config);
-});
+// closeEditButton.addEventListener('click', () => {
+//     clearFormErrors(editModalForm, config);
+// });
 
-// Clear errors when closing the add modal
-closeAddButton.addEventListener('click', () => {
-    clearFormErrors(addModalForm, config);
-});
+// // Clear errors when closing the add modal
+// closeAddButton.addEventListener('click', () => {
+//     clearFormErrors(addModalForm, config);
+// });
 
 const config = {
     formSelector: ".modal__form",
     inputSelector: ".modal__form-input",
     submitButtonSelector: ".modal__form-button",
-    inactiveButtonClass: "modal__button_disabled",
+    inactiveButtonClass: "modal__form-button_disabled",
     inputErrorClass: "modal__input_type_error",
     errorClass: "modal__error_visible"
 
   }
-
+  
 
 enableValidation(config);

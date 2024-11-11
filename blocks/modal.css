@@ -141,6 +141,7 @@ flex-direction: column;
 .modal__error {
   color: red;
   display: none;
+  
 }
 
 .modal__input_type_error {
@@ -148,6 +149,10 @@ flex-direction: column;
   font-weight: 400;
   font-size: 12px;
   max-width: 358px;
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+  
 }
 
 .modal__error_visible {
@@ -155,7 +160,7 @@ flex-direction: column;
   
 }
 
-.modal__button_disabled {
+.modal__form-button_disabled {
   border-width: 1px;
   border-radius: 2px;
   border-color: #000;
