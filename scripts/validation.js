@@ -77,11 +77,7 @@ function enableValidation (options) {
 //     });
 // }
 
-const editModalForm = document.querySelector('#edit-modal .modal__form');
-const addModalForm = document.querySelector('#add-modal .modal__form');
 
-const closeEditButton = document.getElementById('close-edit-button');
-const closeAddButton = document.getElementById('close-add-button');
 
 // closeEditButton.addEventListener('click', () => {
 //     clearFormErrors(editModalForm, config);
