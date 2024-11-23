@@ -27,8 +27,10 @@ export default class FormValidator {
     _checkInputValidity(inputElement) {
         if (!inputElement.validity.valid) {
           this._showInputError(inputElement);
+          this._submitButton.disabled = true;
         } else {
           this._hideInputError(inputElement);
+          this._submitButton.disabled = false;
         }
       }
 
@@ -69,16 +71,16 @@ export default class FormValidator {
         this._setEventListeners();
       }
 
-    //   resetValidation() {
-    //     //creates a variable to the input list
-    //     // this variable will receive a list of inputs inside the form element. NTS: You already have a variable for formElement, so you can use this._formElement + querySelectorAll
+      resetValidation() {
+        //creates a variable to the input list
+        // this variable will receive a list of inputs inside the form element. NTS: You already have a variable for formElement, so you can use this._formElement + querySelectorAll
     
-    //     //now that a list of inputs is set up, forEach one of them, hideInputError
-    //     this._inputElements.forEach((input) => this._hideInputError(input));
+        //now that a list of inputs is set up, forEach one of them, hideInputError
+        this._inputElements.forEach((input) => this._hideInputError(input));
     
-    //     // NTS: also, toggle the submit button (this._toggleButtonState())
-    //     this._toggleButtonState();
-    //   }
+        // NTS: also, toggle the submit button (this._toggleButtonState())
+        this._toggleButtonState();
+      }
     
       disableButton() {
         this._submitButton.classList.add(this._submitButtonDisabled);
