@@ -36,12 +36,6 @@ export default class Card {
         this._cardElement = null;
     }
 
-    //Add card event handler
-    _handleAddSubmited() {
-        this._cardElement.added();
-        this._cardElement.null;
-      }
-
     getView() {
         //get card elements
         this._cardElement = document.querySelector(this._cardSelector).content.querySelector('.card').cloneNode(true)
