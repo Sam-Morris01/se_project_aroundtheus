@@ -149,6 +149,11 @@ height: 44px;
 }
 
 .modal__input_type_error {
+
+  border-bottom-color: red;
+}
+
+.modal__error_visible {
   display: block;
   font-weight: 400;
   font-size: 12px;
@@ -158,11 +163,6 @@ height: 44px;
   text-overflow: ellipsis;
   height: 12px;
   padding-bottom: 19px;
-  
-}
-
-.modal__error_visible {
-  border-bottom-color: red;
   
 }
 
