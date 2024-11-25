@@ -73,6 +73,7 @@ const formName = document.querySelector('#inputName');
 const formDescription = document.querySelector('#inputDescription');
 const profileEditForm = profileEditModal.querySelector('.modal__form')
 const addImageForm = addCardModal.querySelector('.modal__form')
+const submitButton = addCardModal.querySelector('.modal__form-button')
 
 //Preview Modal//
 const previewModal = document.querySelector('#preview-modal');
@@ -90,7 +91,7 @@ const mainPage = document.querySelector('.page__content')
 const closeButtons = document.querySelectorAll('.modal__button-close')
 
 /*Elements*/
-
+console.log(submitButton)
 //Define an object to store the validators
 const formValidators = {};
 
@@ -136,6 +137,17 @@ function handleAddSubmited (e) {
     renderCard({name, link}, cardListEL);
     closePopup(addCardModal);
     addImageForm.reset();
+    submitButton.disabled = true; 
+}
+
+
+function handleOpenAddModal (e) {
+  e.preventDefault();
+  submitButton.disabled = true;
+  submitButton.classList.add('modal__form-button_disabled');
+
+
+
 }
 
 
@@ -150,7 +162,8 @@ editProfileButton.addEventListener("click", () => {
 
 addCardButton.addEventListener("click", () => {
     openModal(addCardModal)
-    
+    submitButton.classList.add('modal__form-button_disabled');
+    submitButton.disabled = true;
 })
 
 
@@ -165,6 +178,7 @@ function closePopup(modal) {
     modal.classList.add("modal_opened");
     document.addEventListener("keydown", closeModalEsc);
     modal.addEventListener("mousedown", closeOverlay);
+    
   }
   
 function closeOverlay(e) {

@@ -30,7 +30,6 @@ export default class FormValidator {
           this._submitButton.disabled = true;
         } else {
           this._hideInputError(inputElement);
-          this._submitButton.disabled = false;
         }
       }
 
