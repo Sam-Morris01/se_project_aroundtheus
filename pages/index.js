@@ -89,9 +89,10 @@ const cardListEL = document.querySelector('.cards__list');
 const cardImage = document.querySelector(".card__image");
 const mainPage = document.querySelector('.page__content')
 const closeButtons = document.querySelectorAll('.modal__button-close')
+ console.log(formImageName.validity)
 
 /*Elements*/
-console.log(submitButton)
+
 //Define an object to store the validators
 const formValidators = {};
 
@@ -141,15 +142,6 @@ function handleAddSubmited (e) {
 }
 
 
-function handleOpenAddModal (e) {
-  e.preventDefault();
-  submitButton.disabled = true;
-  submitButton.classList.add('modal__form-button_disabled');
-
-
-
-}
-
 
 
   
@@ -162,8 +154,13 @@ editProfileButton.addEventListener("click", () => {
 
 addCardButton.addEventListener("click", () => {
     openModal(addCardModal)
-    submitButton.classList.add('modal__form-button_disabled');
-    submitButton.disabled = true;
+    if(formImageName.validity.valid && formImageUrl.validity.valid){
+    submitButton.classList.remove('modal__form-button_disabled');
+    submitButton.disabled = false;
+    } else {
+      submitButton.classList.add('modal__form-button_disabled');
+      submitButton.disabled = true;
+    }
 })
 
 
