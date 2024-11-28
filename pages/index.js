@@ -138,7 +138,6 @@ function handleAddSubmited (e) {
     renderCard({name, link}, cardListEL);
     closePopup(addCardModal);
     addImageForm.reset();
-    submitButton.disabled = true; 
 }
 
 
@@ -154,13 +153,6 @@ editProfileButton.addEventListener("click", () => {
 
 addCardButton.addEventListener("click", () => {
     openModal(addCardModal)
-    if(formImageName.validity.valid && formImageUrl.validity.valid){
-    submitButton.classList.remove('modal__form-button_disabled');
-    submitButton.disabled = false;
-    } else {
-      submitButton.classList.add('modal__form-button_disabled');
-      submitButton.disabled = true;
-    }
 })
 
 
