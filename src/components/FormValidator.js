@@ -52,9 +52,7 @@ export default class FormValidator {
         this._inputElements = [
           ...this._formElement.querySelectorAll(this.inputSelector),
         ];
-        this._submitButton = this._formElement.querySelector(
-          this._submitButtonSelector
-        );
+        this._submitButton = this._formElement.querySelector(".modal__form-button");
         this._inputElements.forEach((inputElement) => {
           inputElement.addEventListener("input", (e) => {
             this._checkInputValidity(inputElement);
@@ -63,6 +61,13 @@ export default class FormValidator {
         });
       }
 
+
+      disableButton() {
+        this._submitButton.classList.add(this._submitButtonDisabled);
+        this._submitButton.disabled = true;
+      }
+
+      
       enableValidation() {
         this._formElement.addEventListener("submit", (evt) => {
           evt.preventDefault();
@@ -82,10 +87,7 @@ export default class FormValidator {
       //   this._toggleButtonState();
       // }
     
-      disableButton() {
-        this._submitButton.classList.add(this._submitButtonDisabled);
-        this._submitButton.disabled = true;
-      }
+
 
 
 }

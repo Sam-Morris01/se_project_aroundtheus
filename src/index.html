@@ -14,7 +14,6 @@
     <meta name="keywords" content="USA, photos, exploration, " />
     <meta content="IE=edge" http-equiv="X-Ua-Compatible" />
     <title>Morris Coffee</title>
-    <link href="./pages/index.css" rel="stylesheet" />
   </head>
   <body class="page">
     <div class="page__content">
@@ -25,7 +24,7 @@
         <section class="profile page__section">
           <img
             class="profile__image"
-            src="./images/Jacques.png"
+            src= "<%=require('./images/Jacques.png')%>"
             alt="The authors image"
           />
           <div class="profile__info">
@@ -107,7 +106,5 @@
         </div>
       </li>
     </template>
-    <script defer src="pages/index.js" type="module"></script>
-    <script src="scripts/validation.js"></script>
   </body>
 </html>
