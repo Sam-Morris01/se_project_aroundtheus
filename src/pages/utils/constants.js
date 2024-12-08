@@ -44,39 +44,17 @@ import FormValidator from "../../components/FormValidator";
 
 //Edit Profile Modal//
 const profileEditModal = document.querySelector('#edit-modal');
-const closeEditModal = document.querySelector('#close-edit-button');
 
 
-//Add Image Modal/
-const addCardButton = document.querySelector('#add-button');
 const addCardModal = document.querySelector('#add-modal');
-const closeAddModal = document.querySelector('#close-add-button');
-
-//Add Image Form//
-const formImageName = document.querySelector('#inputTitle');
-const formImageUrl = document.querySelector('#inputURL')
-const formName = document.querySelector('#inputName');
-const formDescription = document.querySelector('#inputDescription');
-const profileEditForm = profileEditModal.querySelector('.modal__form')
-const addImageForm = addCardModal.querySelector('.modal__form')
-const submitButton = addCardModal.querySelector('.modal__form-button')
-
-//Preview Modal//
-const previewModal = document.querySelector('#preview-modal');
-const closePreviewModal = document.querySelector('#close-preview-button');
-const previewImage = document.querySelector('.modal__preview-image');
-const previewName = document.querySelector('.modal__preview');
-
-//Cards
-const name = document.querySelector('#profileName');
-const description = document.querySelector('#profileDescription');
-const cardTemplate = document.querySelector('#card-template').content.firstElementChild
-const cardListEL = document.querySelector('.cards__list');
-const cardImage = document.querySelector(".card__image");
-const mainPage = document.querySelector('.page__content')
-const closeButtons = document.querySelectorAll('.modal__button-close')
 
 
+export const editProfileButton = document.querySelector(".profile__edit-button");
+export const addCardButton = document.querySelector('#add-button');
+export const addCardModalSelector = '#add-modal';
+export const previewModal = '#preview-modal'
+export const editProfileSelector = '#edit-modal';
+export const cardSelector = '#card-template';
 
 
 /* Form Validators */
