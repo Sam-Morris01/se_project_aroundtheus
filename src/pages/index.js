@@ -1,15 +1,15 @@
 console.log("Script is loaded"); // Add this at the top of your JavaScript file
 
 
-import './pages/index.css'
-import UserInfo from "./components/UserInfo.js"
-import Card from "./components/Card.js";
-import FormValidator from "./components/FormValidator.js";
-import { initialCards } from "./pages/utils/constants.js";
-import Section from "./components/Section.js";
-import PopupWithForm from "./components/PopupWithForm.js";
-import PopupWithImage from "./components/PopupWithImage.js";
-import {editProfileButton, addCardButton, addCardModalSelector, previewModal, editProfileSelector, cardSelector} from "./pages/utils/constants.js"
+import './index.css'
+import UserInfo from "../components/UserInfo.js"
+import Card from "../components/Card.js";
+import FormValidator from "../components/FormValidator.js";
+import { initialCards } from "./utils/constants.js";
+import Section from "../components/Section.js";
+import PopupWithForm from "../components/PopupWithForm.js";
+import PopupWithImage from "../components/PopupWithImage.js";
+import {editProfileButton, addCardButton, addCardFormSelector, previewModal, editProfileSelector, cardSelector, config, editProfileForm, addCardModalSelector, addCardFormElement} from "./utils/constants.js"
 
 
 
@@ -36,23 +36,15 @@ const popupWithForm = new PopupWithForm(editProfileSelector, (formData) => {
 })
 popupWithForm.setEventListeners();
 
-const config = {
-  formSelector: ".modal__form",
-  inputSelector: ".modal__form-input",
-  submitButtonSelector: ".modal__form-button",
-  submitButtonDisabled: "modal__form-button_disabled",
-  inputErrorClass: "modal__input_type_error",
-  errorClass: "modal__error_visible"
 
-}
 
-const profileEditModal = document.querySelector(editProfileSelector);
-const editProfileValidation = new FormValidator(config, profileEditModal);
+const profileEditForm = document.querySelector(editProfileForm);
+const editProfileValidation = new FormValidator(config, profileEditForm);
 editProfileValidation.enableValidation();
 
 
-const addCardModal = document.querySelector(addCardModalSelector);
-const newCardFormValidation = new FormValidator(config, addCardModal);
+const addCardForm = document.querySelector(addCardFormSelector);
+const newCardFormValidation = new FormValidator(config, addCardForm);
 newCardFormValidation.enableValidation();
 
 cardSection.renderItems();
@@ -74,6 +66,8 @@ function handleAddSubmitted(inputValues) {
   const newCard = createCard(cardData);
   cardSection.addElement(newCard); // Append the card to the card section
   cardAddModal.close(); // Close the modal
+  addCardFormElement.reset()
+
 }
 
 

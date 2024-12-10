@@ -11,6 +11,6 @@ export default class Section {
 
     addElement(element) {
         console.log("Appending card element to the section:", element);
-        this.container.append(element)
+        this.container.prepend(element)
     }
 }

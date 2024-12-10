@@ -52,7 +52,7 @@ export default class FormValidator {
         this._inputElements = [
           ...this._formElement.querySelectorAll(this.inputSelector),
         ];
-        this._submitButton = this._formElement.querySelector(".modal__form-button");
+        this._submitButton = this._formElement.querySelector(this._submitButtonSelector);
         this._inputElements.forEach((inputElement) => {
           inputElement.addEventListener("input", (e) => {
             this._checkInputValidity(inputElement);

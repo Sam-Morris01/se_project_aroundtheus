@@ -10,12 +10,9 @@ export default class Popup {
     }
 
     open() {
-        const closeButtons = document.querySelectorAll('.modal__button-close')
         this.popupElement.classList.add("modal_opened");
         document.addEventListener('keydown', this.closeOnEscape);
-        closeButtons.forEach(button => {
-            button.addEventListener('click', () => this.close())
-        })
+
 
         
     }
@@ -36,7 +33,7 @@ export default class Popup {
             this.popupElement.addEventListener("click", (event) => {
                 if (
                     event.target.classList.contains("modal") ||
-                    event.target.classList.contains("modal__close")
+                    event.target.classList.contains("modal__button-close")
                 ) {
                     this.close();
                 }
