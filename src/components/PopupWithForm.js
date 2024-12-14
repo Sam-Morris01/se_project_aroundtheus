@@ -17,6 +17,20 @@ export default class PopupWithForm extends Popup {
         return inputValues;
     }
 
+
+    setInputValues(data) {
+        this.inputList.forEach((input) => {
+          if (data[input.name] !== undefined) {
+            input.value = data[input.name];
+          } else {
+            console.log(`No data provided for input with name: ${input.name}`);
+            input.value = "";
+          }
+        });
+      }
+
+
+
     setEventListeners() {
         super.setEventListeners();
         this.form.addEventListener("submit", (e) => {
@@ -26,6 +40,8 @@ export default class PopupWithForm extends Popup {
           });
           
     }
+
+    
 
 
  

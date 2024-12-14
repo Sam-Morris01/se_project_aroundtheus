@@ -21,8 +21,7 @@ const userInfo = new UserInfo({
 const cardSection = new Section({
   items: initialCards,
   renderer: (item) => {
-    const card = new Card(item, cardSelector, handleImageClick);
-    const cardElement =  card.getView();
+    const cardElement =  createCard(item);
     cardSection.addElement(cardElement);
   }
 },
@@ -32,7 +31,10 @@ const cardSection = new Section({
 
 
 const popupWithForm = new PopupWithForm(editProfileSelector, (formData) => {
-  userInfo.setUserInfo(formData);
+  userInfo.setUserInfo({
+    name: formData.title,
+    job: formData.description
+  });
 })
 popupWithForm.setEventListeners();
 
@@ -97,7 +99,13 @@ const editProfileModal = new PopupWithForm(
 
 //set the modal event listeners
 addCardButton.addEventListener("click", () => cardAddModal.open());
-editProfileButton.addEventListener("click", () => editProfileModal.open());
+editProfileButton.addEventListener("click", () => {
+  const currentUserData = userInfo.getUserInfo();
+  popupWithForm.setInputValues({
+    title: currentUserData.name,
+    description: currentUserData.job
+  })
+  editProfileModal.open()});
 
 cardAddModal.setEventListeners();
 editProfileModal.setEventListeners();
