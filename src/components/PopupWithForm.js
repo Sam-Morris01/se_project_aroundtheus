@@ -7,7 +7,7 @@ export default class PopupWithForm extends Popup {
     this.form = this.popupElement.querySelector(".modal__form");
     this.inputList = this.form.querySelectorAll(".modal__form-input");
     this.submitButton = this.form.querySelector(".modal__form-button");
-    this.defaultSubmitText = this.submitButton.textContent; // Save default button text
+    this.defaultSubmitText = this.submitButton.textContent; 
   }
 
   // Collect input values from the form
@@ -39,10 +39,10 @@ export default class PopupWithForm extends Popup {
   setLoading(isLoading, loadingText = "Saving...") {
     if (isLoading) {
       this.submitButton.textContent = loadingText; // Show "Saving..."
-      this.submitButton.disabled = true; // Disable button
+      this.submitButton.disabled = true;
     } else {
-      this.submitButton.textContent = this.defaultSubmitText; // Restore default text
-      this.submitButton.disabled = false; // Enable button
+      this.submitButton.textContent = this.defaultSubmitText; 
+      this.submitButton.disabled = false;
     }
   }
 
@@ -52,10 +52,10 @@ export default class PopupWithForm extends Popup {
     this.form.addEventListener("submit", (e) => {
       e.preventDefault();
       const inputValues = this._getInputValues();
-      this.setLoading(true, "Saving..."); // Set loading state
+      this.setLoading(true, "Saving..."); 
   
       Promise.resolve(this.handleFormSubmit(inputValues))
-        .finally(() => this.setLoading(false)); // Reset loading state
+        .finally(() => this.setLoading(false));
     });
   }
   
