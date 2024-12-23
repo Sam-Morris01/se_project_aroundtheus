@@ -11,28 +11,26 @@ export default class Card {
   }
 
   _toggleLike() {
-    if (!this._api) {
-      console.error("API instance is missing");
-      return;
-    }
-
     if (this._isLiked) {
-      this._api.unlikeCard(this._id)
+      // Call dislikeCard when already liked
+      this._api.dislikeCard(this._id)
         .then((updatedCard) => {
-          this._isLiked = false;
-          this._updateLikeIcon();
+          this._isLiked = false; // Update like state
+          this._updateLikeIcon(); // Update heart color
         })
-        .catch((err) => console.error("Failed to unlike card:", err));
+        .catch((err) => console.error("Failed to dislike card:", err));
+
     } else {
+      // Call likeCard when not liked
       this._api.likeCard(this._id)
         .then((updatedCard) => {
-          this._isLiked = true;
-          this._updateLikeIcon();
+          this._isLiked = true; // Update like state
+          this._updateLikeIcon(); // Update heart color
         })
         .catch((err) => console.error("Failed to like card:", err));
     }
   }
-
+  
   _updateLikeIcon() {
     if (this._isLiked) {
       this.likeButton.classList.add("card__like-button_active");
@@ -55,6 +53,7 @@ export default class Card {
 
   getView() {
     this._cardElement = document.querySelector(this._cardSelector).content.querySelector('.card').cloneNode(true);
+    this._cardElement.setAttribute("data-id", this._id);
 
     this._imageElement = this._cardElement.querySelector('.card__image');
     this._imageElement.src = this._link;
@@ -67,7 +66,7 @@ export default class Card {
 
     this._updateLikeIcon();
     this._setEventListeners();
-
+    console.log("Created card element:", this._cardElement); // Add this
     return this._cardElement;
   }
 }

@@ -17,6 +17,9 @@ const api = new Api({
   },
 });
 
+// Store current user ID
+let currentUserId;
+
 // Initialize user info
 const userInfo = new UserInfo({
   nameSelector: "#profileName",
@@ -54,7 +57,7 @@ const editProfileModal = new PopupWithForm(editProfileSelector, (inputValues) =>
     })
     .catch((err) => console.error("Failed to update profile:", err))
     .finally(() => {
-      editProfileModal.setLoading(false); // Reset button state
+      editProfileModal.setLoading(false);
     });
 });
 editProfileModal.setEventListeners();
@@ -74,31 +77,29 @@ const addCardModal = new PopupWithForm(addCardModalSelector, (inputValues) => {
     })
     .catch((err) => console.error("Failed to add card:", err))
     .finally(() => {
-      addCardModal.setLoading(false); // Reset button state
+      addCardModal.setLoading(false);
     });
 });
 addCardModal.setEventListeners();
 
 
 
-// Initialize Update Avatar Popup
 const updateAvatarModal = new PopupWithForm("#update-avatar-modal", (inputValues) => {
   updateAvatarModal.setLoading(true, "Saving...");
   return api.updateAvatar(inputValues.avatar)
     .then((updatedUser) => {
       const profileImage = document.querySelector(".profile__image");
-      profileImage.src = updatedUser.avatar; // Update profile picture
+      profileImage.src = updatedUser.avatar; // Update profile picture in DOM
       updateAvatarModal.close();
     })
-    .catch((err) => {
-      console.error("Failed to update avatar:", err);
-    })
+    .catch((err) => console.error("Failed to update avatar:", err))
     .finally(() => {
       updateAvatarModal.setLoading(false);
     });
 });
 
 updateAvatarModal.setEventListeners();
+
 
 // Handle opening the modal when clicking the edit icon
 document.querySelector(".profile__image-container").addEventListener("click", () => {
@@ -109,11 +110,15 @@ document.querySelector(".profile__image-container").addEventListener("click", ()
 const updateAvatarFormElement = document.querySelector("#update-avatar-form");
 if (updateAvatarFormElement) {
   const updateAvatarFormValidation = new FormValidator(config, updateAvatarFormElement);
+  // Enable validation
   updateAvatarFormValidation.enableValidation();
+  // Disable button initially
+  const saveButton = updateAvatarFormElement.querySelector(".modal__form-button");
+  saveButton.disabled = true;
+  saveButton.classList.add(config.submitButtonDisabled); // Ensure the disabled style is applied
 } else {
   console.error("Update avatar form not found!");
-} 
-
+}
 
 // Enable form validation
 const editProfileFormElement = document.querySelector('#edit-profile-form');
@@ -134,22 +139,34 @@ if (addCardFormElement) {
   console.error('Add card form not found!');
 }
 
+
 // Load initial data
 api.getUserInfo()
   .then((userData) => {
+    currentUserId = userData._id; // Save current user ID
     userInfo.setUserInfo({
       name: userData.name,
       hobby: userData.about,
+      id: userData._id,
     });
-  })
-  .catch((err) => console.error(err));
 
-api.getInitialCards()
+    const profileImage = document.querySelector(".profile__image");
+    profileImage.src = userData.avatar; // Set the avatar
+  })
+  .catch((err) => console.error("Failed to fetch user info:", err));
+
+  api.getInitialCards()
   .then((cards) => {
-    cardSection.items = cards;
+    cardSection.items = cards.map((card) => ({
+      name: card.name,
+      link: card.link,
+      _id: card._id,
+      likes: card.likes, // Include likes array
+    }));
     cardSection.renderItems();
   })
-  .catch((err) => console.error(err));
+  .catch((err) => console.error("Failed to fetch initial cards:", err));
+
 
 // Button event listeners
 editProfileButton.addEventListener("click", () => {
@@ -168,20 +185,20 @@ function handleImageClick (cardData) {
   popupWithImage.open(cardData)
 };
 
-
+//Delete Modal
 const deleteModal = new PopupWithForm("#delete-modal", () => {
-  // Ensure cardId and cardElement are correctly assigned
   if (deleteModal.cardId && deleteModal.cardElement) {
     api.deleteCard(deleteModal.cardId)
       .then(() => {
-        deleteModal.cardElement.remove();
+        console.log(deleteModal.cardElement)
+        document.querySelector('.card').remove();
+        deleteModal.close();
       })
       .catch((err) => console.error(err));
   } else {
     console.error("Card ID or element is missing!");
   }
 });
-
 deleteModal.setEventListeners();
 
 // Pass card information to the delete modal in createCard
@@ -190,21 +207,22 @@ function createCard({ name = "No Name", link = "", _id = null, likes = [] } = {}
     console.error("Invalid card data:", { name, link, _id });
     return;
   }
-
-  const isLiked = likes.some((like) => like._id === userInfo.getUserId()); 
+  
+  const currentUserId = userInfo.getUserId(); // Get the stored user ID
+  const isLiked = likes.some((like) => like._id === currentUserId); // Check if current user liked the card
 
   const card = new Card(
     { name, link, _id, isLiked },
     cardSelector,
     handleImageClick,
     () => {
+      const cardElement = card.getView();
       deleteModal.cardId = _id;
-      deleteModal.cardElement = card.getView();
+      deleteModal.cardElement = cardElement; // Assign the card's DOM element
       deleteModal.open();
     },
     api 
   );
-
   return card.getView();
 }
 
