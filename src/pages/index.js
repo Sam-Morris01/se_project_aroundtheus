@@ -67,7 +67,7 @@ editProfileModal.setEventListeners();
 
 const addCardModal = new PopupWithForm(addCardModalSelector, (inputValues) => {
   addCardModal.setLoading(true, "Saving...");
-  const cardData = { name: inputValues.title, link: inputValues.url };
+  const cardData = { name: inputValues.title, link: inputValues.url , isLiked: false};
   return api.createCard(cardData)
     .then((newCard) => {
       const cardElement = createCard(newCard);
@@ -161,7 +161,7 @@ api.getUserInfo()
       name: card.name,
       link: card.link,
       _id: card._id,
-      likes: card.likes, // Include likes array
+      isLiked: card.isLiked 
     }));
     cardSection.renderItems();
   })
@@ -202,14 +202,12 @@ const deleteModal = new PopupWithForm("#delete-modal", () => {
 deleteModal.setEventListeners();
 
 // Pass card information to the delete modal in createCard
-function createCard({ name = "No Name", link = "", _id = null, likes = [] } = {}) {
+function createCard({ name = "No Name", link = "", _id = null, isLiked } = {}) {
   if (!name || !link) {
     console.error("Invalid card data:", { name, link, _id });
     return;
   }
-  
-  const currentUserId = userInfo.getUserId(); // Get the stored user ID
-  const isLiked = likes.some((like) => like._id === currentUserId); // Check if current user liked the card
+
 
   const card = new Card(
     { name, link, _id, isLiked },
