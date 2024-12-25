@@ -16,14 +16,47 @@
   margin-top: 22px;
 }
 
+.profile__image-container {
+  position: relative;
+  width: 120px;
+  height: 120px; 
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 30px;
+}
+
 .profile__image {
   height: 120px;
   width: 120px;
-  border-radius: 50%;
   object-fit: cover;
-  background-position: center;
+  border-radius: 50%; 
   margin-right: 30px;
+  cursor: pointer;
 }
+
+.profile__edit-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%; 
+  transform: translate(-50%, -50%); 
+  background-color: rgba(0, 0, 0);
+  color: white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: none; 
+  cursor: pointer; 
+  background: transparent url(../images/edit-profile.svg) center no-repeat;
+}
+
+/* Show Icon on Hover */
+.profile__image-container:hover .profile__edit-icon {
+  display: block;
+}
+
 
 .profile__title {
   font-family: Inter, Arial, Helvetica, sans-serif;

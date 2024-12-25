@@ -1,111 +1,234 @@
-console.log("Script is loaded"); // Add this at the top of your JavaScript file
-
-
-import './index.css'
-import UserInfo from "../components/UserInfo.js"
+import './index.css';
+import UserInfo from "../components/UserInfo.js";
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
-import { initialCards } from "./utils/constants.js";
 import Section from "../components/Section.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImage.js";
-import {editProfileButton, addCardButton, addCardFormSelector, previewModal, editProfileSelector, cardSelector, config, editProfileForm, addCardModalSelector, addCardFormElement} from "./utils/constants.js"
+import Api from '../components/Api.js';
+import { editProfileButton, addCardButton, previewModal, editProfileSelector, cardSelector, config, editProfileForm, addCardModalSelector, addCardFormElement } from "./utils/constants.js";
 
+// Initialize API
+const api = new Api({
+  baseUrl: "https://around-api.en.tripleten-services.com/v1",
+  headers: {
+    authorization: "3058e262-bd72-484f-aef9-41d0e62ea999",
+    "Content-Type": "application/json",
+  },
+});
 
+// Store current user ID
+let currentUserId;
 
+// Initialize user info
 const userInfo = new UserInfo({
   nameSelector: "#profileName",
-  hobbySelector: "#profileDescription"
-})
+  hobbySelector: "#profileDescription",
+  avatarSelector: "#avatar"
+});
 
-const cardSection = new Section({
-  items: initialCards,
-  renderer: (item) => {
-    const cardElement =  createCard(item);
-    cardSection.addElement(cardElement);
-  }
-},
-".cards__list"
+// Initialize section for cards
+const cardSection = new Section(
+  {
+    items: [],
+    renderer: (item) => {
+      const cardElement = createCard(item);
+      cardSection.addElement(cardElement);
+    },
+  },
+  ".cards__list"
 );
 
+// Initialize Popups
+const popupWithImage = new PopupWithImage(previewModal);
+popupWithImage.setEventListeners();
+
+const editProfileModal = new PopupWithForm(editProfileSelector, (inputValues) => {
+  editProfileModal.setLoading(true, "Saving...");
+  return api.updateUserInfo({
+    name: inputValues.title,
+    about: inputValues.description,
+  })
+    .then((updatedUser) => {
+      userInfo.setUserInfo({
+        name: updatedUser.name,
+        hobby: updatedUser.about,
+      });
+      editProfileModal.close();
+    })
+    .catch((err) => console.error("Failed to update profile:", err))
+    .finally(() => {
+      editProfileModal.setLoading(false);
+    });
+});
+editProfileModal.setEventListeners();
 
 
-const popupWithForm = new PopupWithForm(editProfileSelector, (formData) => {
-  userInfo.setUserInfo({
-    name: formData.title,
-    job: formData.description
+
+
+const addCardModal = new PopupWithForm(addCardModalSelector, (inputValues) => {
+  addCardModal.setLoading(true, "Saving...");
+  const cardData = { name: inputValues.title, link: inputValues.url , isLiked: false};
+  return api.createCard(cardData)
+    .then((newCard) => {
+      const cardElement = createCard(newCard);
+      cardSection.addElement(cardElement);
+      addCardModal.close();
+      addCardFormElement.reset();
+    })
+    .catch((err) => console.error("Failed to add card:", err))
+    .finally(() => {
+      addCardModal.setLoading(false);
+    });
+});
+addCardModal.setEventListeners();
+
+
+
+const updateAvatarModal = new PopupWithForm("#update-avatar-modal", (inputValues) => {
+  updateAvatarModal.setLoading(true, "Saving...");
+  return api.updateAvatar(inputValues.avatar)
+      .then((updatedUser) => {
+          userInfo.setUserInfo({
+              name: updatedUser.name, // Include name to ensure consistency
+              hobby: updatedUser.about, // Include hobby/description
+              avatar: updatedUser.avatar, // Update avatar through UserInfo
+              id: updatedUser._id, // Optional: Update ID if necessary
+          });
+          updateAvatarModal.close();
+      })
+      .catch((err) => console.error("Failed to update avatar:", err))
+      .finally(() => {
+          updateAvatarModal.setLoading(false);
+      });
+});
+
+updateAvatarModal.setEventListeners();
+
+
+
+// Handle opening the modal when clicking the edit icon
+document.querySelector(".profile__image-container").addEventListener("click", () => {
+  updateAvatarModal.open();
+});
+
+// Ensure form validation
+const updateAvatarFormElement = document.querySelector("#update-avatar-form");
+if (updateAvatarFormElement) {
+  const updateAvatarFormValidation = new FormValidator(config, updateAvatarFormElement);
+  // Enable validation
+  updateAvatarFormValidation.enableValidation();
+  // Disable button initially
+  const saveButton = updateAvatarFormElement.querySelector(".modal__form-button");
+  saveButton.disabled = true;
+  saveButton.classList.add(config.submitButtonDisabled); // Ensure the disabled style is applied
+} else {
+  console.error("Update avatar form not found!");
+}
+
+// Enable form validation
+const editProfileFormElement = document.querySelector('#edit-profile-form');
+
+
+// Check if forms are valid before initializing validators
+if (editProfileFormElement) {
+  const editProfileValidation = new FormValidator(config, editProfileFormElement);
+  editProfileValidation.enableValidation();
+} else {
+  console.error('Edit profile form not found!');
+}
+
+if (addCardFormElement) {
+  const newCardFormValidation = new FormValidator(config, addCardFormElement);
+  newCardFormValidation.enableValidation();
+} else {
+  console.error('Add card form not found!');
+}
+
+
+// Load initial data
+api.getUserInfo()
+  .then((userData) => {
+    currentUserId = userData._id; // Save current user ID
+    userInfo.setUserInfo({
+      name: userData.name,
+      hobby: userData.about,
+      id: userData._id,
+      avatar: userData.avatar
+    });
+
+    // const profileImage = document.querySelector(".profile__image");
+    // profileImage.src = userData.avatar; // Set the avatar
+  })
+  .catch((err) => console.error("Failed to fetch user info:", err));
+
+  api.getInitialCards()
+  .then((cards) => {
+    cardSection.items = cards.map((card) => ({
+      name: card.name,
+      link: card.link,
+      _id: card._id,
+      isLiked: card.isLiked 
+    }));
+    cardSection.renderItems();
+  })
+  .catch((err) => console.error("Failed to fetch initial cards:", err));
+
+
+// Button event listeners
+editProfileButton.addEventListener("click", () => {
+  const currentUserData = userInfo.getUserInfo();
+  editProfileModal.setInputValues({
+    title: currentUserData.name,
+    description: currentUserData.job,
   });
-})
-popupWithForm.setEventListeners();
+  editProfileModal.open();
+});
 
+addCardButton.addEventListener("click", () => addCardModal.open());
 
-
-const profileEditForm = document.querySelector(editProfileForm);
-const editProfileValidation = new FormValidator(config, profileEditForm);
-editProfileValidation.enableValidation();
-
-
-const addCardForm = document.querySelector(addCardFormSelector);
-const newCardFormValidation = new FormValidator(config, addCardForm);
-newCardFormValidation.enableValidation();
-
-cardSection.renderItems();
 
 function handleImageClick (cardData) {
   popupWithImage.open(cardData)
 };
 
-function handleProfileSubmited (inputValues) {
-  userInfo.setUserInfo({
-    name: inputValues.title,
-    hobby: inputValues.description
-  });
-  editProfileModal.close()
+//Delete Modal
+const deleteModal = new PopupWithForm("#delete-modal", () => {
+  if (deleteModal.cardId && deleteModal.cardElement) {
+    api.deleteCard(deleteModal.cardId)
+      .then(() => {
+        console.log(deleteModal.cardElement)
+        document.querySelector('.card').remove();
+        deleteModal.close();
+      })
+      .catch((err) => console.error(err));
+  } else {
+    console.error("Card ID or element is missing!");
+  }
+});
+deleteModal.setEventListeners();
+
+// Pass card information to the delete modal in createCard
+function createCard({ name = "No Name", link = "", _id = null, isLiked } = {}) {
+  if (!name || !link) {
+    console.error("Invalid card data:", { name, link, _id });
+    return;
+  }
+
+
+  const card = new Card(
+    { name, link, _id, isLiked },
+    cardSelector,
+    handleImageClick,
+    () => {
+      const cardElement = card.getView();
+      deleteModal.cardId = _id;
+      deleteModal.cardElement = cardElement; // Assign the card's DOM element
+      deleteModal.open();
+    },
+    api 
+  );
+  return card.getView();
 }
 
-function handleAddSubmitted(inputValues) {
-  const cardData = { name: inputValues.title, link: inputValues.url };
-  const newCard = createCard(cardData);
-  cardSection.addElement(newCard); // Append the card to the card section
-  cardAddModal.close(); // Close the modal
-  addCardFormElement.reset()
 
-}
-
-
-function createCard({name, link}) {
-  const card = new Card({name, link}, cardSelector, handleImageClick)
-  const cardElement = card.getView();
-  return cardElement;
-}
-
-
-
-
-
-const popupWithImage = new PopupWithImage(previewModal);
-popupWithImage.setEventListeners();
-
-// Select the modals
-const cardAddModal = new PopupWithForm(
-  addCardModalSelector,
-  handleAddSubmitted
-);
-const editProfileModal = new PopupWithForm(
-  editProfileSelector,
-  handleProfileSubmited
-);
-
-
-//set the modal event listeners
-addCardButton.addEventListener("click", () => cardAddModal.open());
-editProfileButton.addEventListener("click", () => {
-  const currentUserData = userInfo.getUserInfo();
-  popupWithForm.setInputValues({
-    title: currentUserData.name,
-    description: currentUserData.job
-  })
-  editProfileModal.open()});
-
-cardAddModal.setEventListeners();
-editProfileModal.setEventListeners();
