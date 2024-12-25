@@ -39,7 +39,7 @@
   top: 50%;
   left: 50%; 
   transform: translate(-50%, -50%); 
-  background-color: rgba(0, 0, 0,);
+  background-color: rgba(0, 0, 0);
   color: white;
   border-radius: 50%;
   width: 40px;
@@ -54,7 +54,7 @@
 
 /* Show Icon on Hover */
 .profile__image-container:hover .profile__edit-icon {
-  display: flex;
+  display: block;
 }
 
 

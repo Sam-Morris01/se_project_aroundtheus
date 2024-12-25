@@ -24,6 +24,7 @@ let currentUserId;
 const userInfo = new UserInfo({
   nameSelector: "#profileName",
   hobbySelector: "#profileDescription",
+  avatarSelector: "#avatar"
 });
 
 // Initialize section for cards
@@ -87,18 +88,23 @@ addCardModal.setEventListeners();
 const updateAvatarModal = new PopupWithForm("#update-avatar-modal", (inputValues) => {
   updateAvatarModal.setLoading(true, "Saving...");
   return api.updateAvatar(inputValues.avatar)
-    .then((updatedUser) => {
-      const profileImage = document.querySelector(".profile__image");
-      profileImage.src = updatedUser.avatar; // Update profile picture in DOM
-      updateAvatarModal.close();
-    })
-    .catch((err) => console.error("Failed to update avatar:", err))
-    .finally(() => {
-      updateAvatarModal.setLoading(false);
-    });
+      .then((updatedUser) => {
+          userInfo.setUserInfo({
+              name: updatedUser.name, // Include name to ensure consistency
+              hobby: updatedUser.about, // Include hobby/description
+              avatar: updatedUser.avatar, // Update avatar through UserInfo
+              id: updatedUser._id, // Optional: Update ID if necessary
+          });
+          updateAvatarModal.close();
+      })
+      .catch((err) => console.error("Failed to update avatar:", err))
+      .finally(() => {
+          updateAvatarModal.setLoading(false);
+      });
 });
 
 updateAvatarModal.setEventListeners();
+
 
 
 // Handle opening the modal when clicking the edit icon
@@ -148,10 +154,11 @@ api.getUserInfo()
       name: userData.name,
       hobby: userData.about,
       id: userData._id,
+      avatar: userData.avatar
     });
 
-    const profileImage = document.querySelector(".profile__image");
-    profileImage.src = userData.avatar; // Set the avatar
+    // const profileImage = document.querySelector(".profile__image");
+    // profileImage.src = userData.avatar; // Set the avatar
   })
   .catch((err) => console.error("Failed to fetch user info:", err));
 

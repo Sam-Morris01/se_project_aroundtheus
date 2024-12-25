@@ -21,7 +21,6 @@ export default class Api {
         headers: this._headers,
       })
         .then(this._handleResponse)
-        .catch(this._handleError);
     }
   
     updateUserInfo({ name, about }) {
@@ -31,7 +30,6 @@ export default class Api {
         body: JSON.stringify({ name, about }),
       })
         .then(this._handleResponse)
-        .catch(this._handleError);
     }
   
     updateAvatar(avatar) {
@@ -41,7 +39,6 @@ export default class Api {
         body: JSON.stringify({ avatar }),
       })
         .then(this._handleResponse)
-        .catch(this._handleError);
     }
   
     // Card routes
@@ -50,7 +47,7 @@ export default class Api {
         headers: this._headers,
       })
         .then(this._handleResponse)
-        .catch(this._handleError);
+
     }
   
     createCard({ name, link }) {
@@ -60,7 +57,7 @@ export default class Api {
         body: JSON.stringify({ name, link }),
       })
         .then(this._handleResponse)
-        .catch(this._handleError);
+
     }
   
     deleteCard(cardId) {
@@ -69,7 +66,6 @@ export default class Api {
         headers: this._headers,
       })
         .then(this._handleResponse)
-        .catch(this._handleError);
     }
   
     likeCard(cardId) {
@@ -78,7 +74,6 @@ export default class Api {
         headers: this._headers,
       })
         .then(this._handleResponse)
-        .catch(this._handleError);
     }
   
     dislikeCard(cardId) {
@@ -87,7 +82,6 @@ export default class Api {
         headers: this._headers,
       })
         .then(this._handleResponse)
-        .catch(this._handleError);
     }
   }
   
